@@ -12,9 +12,7 @@ public class Student {
         this.age=age;
         this.grade=grade;
     }
-    public void setId(int id){
-        this.id=id;
-    }
+    public void setId(int id){this.id=id;}
     public void setName(String name){
         this.name=name;
     }
@@ -37,11 +35,8 @@ public class Student {
         return grade;
     }
     public void disp_st_details(){
-        System.out.println("Student");
-        System.out.println("\t id :"+id);
-        System.out.println("\t Name :"+name);
-        System.out.println("\t Age :"+age);
-        System.out.println("\t grade :"+grade);
+
+        System.out.println(id+"|"+name+"|"+age+"|"+grade);
     }
 
     public String toString(){

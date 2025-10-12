@@ -7,6 +7,12 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
+        String path="C:\\Users\\shank\\IdeaProjects\\SMART_LIBRARY_MANAGEMENT_SYSTEM\\Student_Data\\students.csv";
+
+        StudentService.initializeDataFile(path);
+        StudentService.loadFromFile(path);
+        System.out.println("\nExisting students in file");
+        StudentService.listStudent();
         Scanner sc=new Scanner(System.in);
         System.out.println("Enter the number of student" +
                 " information to be filled ");
@@ -27,6 +33,7 @@ public class Main {
             StudentService.addStudent(s);
         }
 
+
         while(true){
             System.out.println("1.Add Student\n2.list Student\n" +
                     "3.Search Student\n4.update Student details\n5.Delete Student\n6.exit");
@@ -42,8 +49,10 @@ public class Main {
                     String grade=sc.nextLine();
                     Student s=new Student(id,name,Age,grade);
                     StudentService.addStudent(s);
+                    StudentService.saveToFile(path);
                     break;
                 case 2:
+
                     StudentService.listStudent();
                     break;
                 case 3:
@@ -57,13 +66,16 @@ public class Main {
                     System.out.println("Enter Student id to update :");
                     int search_id=sc.nextInt();
                     StudentService.updateStudent_info(search_id);
+                    StudentService.saveToFile(path);
                     break;
                 case 5:
                     System.out.println("Enter Student id to delete");
                     int delete_id=sc.nextInt();
                     StudentService.deleteStudent(delete_id);
+                    StudentService.saveToFile(path);
                     break;
                 case 6:
+                    StudentService.saveToFile(path);
                     System.exit(0);
             }
         }
