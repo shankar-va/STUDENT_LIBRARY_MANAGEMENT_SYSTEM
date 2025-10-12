@@ -19,44 +19,6 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the number of student" +
                 " information to be filled ");
-//        int n;
-//        while (true) {
-//            try {
-//                n = sc.nextInt();
-//                sc.nextLine();
-//
-//                System.out.println("Enter each student's details" +
-//                        "in the following format\nid->name->age->grade");
-//                break;
-//            } catch (Exception e) {
-//                System.out.println("Please enter Integer Input");
-//                sc.nextLine();
-//            }
-//        }
-//
-//
-//        for (int a = 0; a < n; a++) {
-//            System.out.printf("Enter student %d details ", a + 1);
-//            int id = sc.nextInt();
-//            sc.nextLine();
-//            String name = sc.nextLine();
-//             int Age;
-//            while (true) {
-//                try {
-//                    Age = sc.nextInt();
-//                    sc.nextLine();
-//
-//                    break;
-//                } catch (Exception e) {
-//                    System.out.println("Please enter Integer Input");
-//                    sc.nextLine();
-//                }
-//            }
-//            //sc.nextLine();
-//            String grade = sc.nextLine();
-//            Student s = new Student(id, name, Age, grade);
-//            FileUtil.addStudent(s);
-//        }
 
 
         while (true) {
