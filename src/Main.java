@@ -10,17 +10,15 @@ import java.util.Scanner;
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        String path = "C:\\Users\\shank\\IdeaProjects\\SMART_LIBRARY_MANAGEMENT_SYSTEM\\Student_Data\\students.csv";
+        String path = "Student_Data\\Students.csv";
 
         FileUtil.initializeDataFile(path);
         FileUtil.loadFromFile(path);
         System.out.println("\nExisting students in file");
         FileUtil.listStudent();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the number of student" +
-                " information to be filled ");
 
-
+        StudentService.orderById();
         while (true) {
             System.out.println("==============================");
             System.out.println("SMART LIBRARY MANAGEMENT SYSTEM");
@@ -53,7 +51,7 @@ public class Main {
                                 System.out.println("Student id has already been taken");
                             }
                         } catch (Exception e) {
-                            System.out.println("Please enter Integer Input");
+                            System.out.println(" id Please enter Integer Input");
                             sc.nextLine();
                         }
                     }
@@ -63,24 +61,47 @@ public class Main {
                     while (true) {
                             try {
                                 Age = sc.nextInt();
-                                if (Age >= 18 && Age <= 25) break;
+                                if (Age >= 18 && Age <= 25){
+                                    sc.nextLine();
+                                    break;
+                                }
                                 else System.out.println("Enter valid age");
                             } catch (Exception e) {
                                 System.out.println("Please enter Integer Input");
+                                sc.nextLine();
                             }
                     }
-                    sc.nextLine();
+
                     String grade = sc.nextLine();
                     Student s = new Student(id, name, Age, grade);
                     FileUtil.addStudent(s);
+                    FileUtil.orderById();
                     FileUtil.saveToFile(path);
                     break;
                 case 2:
+                    System.out.println("Enter which you want to display student details\nid\tname\tage\tgrade\n");
+                    String order=sc.nextLine();
 
+                    switch(order) {
+                        case "id":
+                            FileUtil.orderById();
+                            break;
+                        case "name":
+                            FileUtil.orderByname();
+                            break;
+                        case "age":
+                            FileUtil.orderByage();
+                            break;
+                        case "Grade":
+                            FileUtil.orderByGrade();
+                            break;
+                    }
                     FileUtil.listStudent();
+                    FileUtil.orderById();
                     break;
                 case 3:
                     System.out.println("Enter student id ");
+
                     int id_no = sc.nextInt();
                     Student a = FileUtil.findStudentById(id_no);
                     if (a != null) System.out.println(a.toString(id_no));

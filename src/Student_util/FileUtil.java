@@ -3,6 +3,7 @@ package src.Student_util;
 import java.io.*;
 
 public class FileUtil extends src.service.StudentService {
+
     public static void initializeDataFile(String path){
         File dataDir=new File(path);
         File parentDir=dataDir.getParentFile();
@@ -18,7 +19,7 @@ public class FileUtil extends src.service.StudentService {
                 bw.write("id,name,age,grade\n");
                 bw.close();
                 System.out.println("File created Successfully at: "+dataDir.getAbsolutePath());
-                bw.close();
+
             }catch(Exception e){
                 System.out.println("Error creating file:"+e.getMessage());
             }

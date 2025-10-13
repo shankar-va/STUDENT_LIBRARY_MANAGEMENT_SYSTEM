@@ -1,11 +1,12 @@
 package src.service;
+import src.Student_util.FileUtil;
 import src.model.Student;
 
 import java.io.*;
 import java.util.*;
 public class StudentService{
 
-    protected static ArrayList<Student> Student_info=new ArrayList<>();
+    public static ArrayList<Student> Student_info=new ArrayList<>();
     //add student to database
     public static void  addStudent(Student s){
         if(StudentService.findStudentById(s.getId())==null) Student_info.add(s);
@@ -90,6 +91,23 @@ public class StudentService{
 
         }
     }
+    static String path="Student_Data\\Students.csv";
+    public static void  orderById(){
+        Collections.sort(Student_info,Comparator.comparing(Student::getId));
+        FileUtil.saveToFile(path);
+    }
+    public static void orderByname(){
+        Collections.sort(Student_info,Comparator.comparing(Student::getName,String.CASE_INSENSITIVE_ORDER));
+        FileUtil.saveToFile(path);
+    }
+    public static void orderByage(){
+        Collections.sort(Student_info,Comparator.comparing(Student::getAge));
+        FileUtil.saveToFile(path);
+    }
+    public static void  orderByGrade(){
+        Collections.sort(Student_info,Comparator.comparing(Student::getGrade,String.CASE_INSENSITIVE_ORDER));
 
+        FileUtil.saveToFile(path);
+    }
 
 }
