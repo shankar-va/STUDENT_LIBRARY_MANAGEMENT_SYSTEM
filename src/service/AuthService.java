@@ -70,7 +70,8 @@ public class AuthService {
     }
 
     public static User login(String username, String password, String roleStr, String studentName, String studentIdText) {
-        FileUtil.loadUsers("Student_Data\\Users.csv"); // ensure user list loaded
+        // ✅ Always load user list first
+        FileUtil.loadUsers("Student_Data" + File.separator + "Users.csv");
         Role role = Role.valueOf(roleStr.toUpperCase());
 
         for (User u : FileUtil.userList) {
@@ -78,19 +79,29 @@ public class AuthService {
                     && u.getPassword().equals(password)
                     && u.getRole() == role) {
 
-                // ✅ If not student, normal login
-                if (role != Role.STUDENT) return u;
+                // ✅ Non-student roles (Admin, Staff)
+                if (role != Role.STUDENT) {
+                    return u;
+                }
 
-                // ✅ If student, verify student record matches ID & Name
-                if (studentName == null || studentIdText == null || studentName.isEmpty() || studentIdText.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Enter both Student Name and ID!");
+                // ✅ Validate Student Inputs
+                if (studentName == null || studentIdText == null
+                        || studentName.trim().isEmpty() || studentIdText.trim().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please enter both Student Name and ID!");
                     return null;
                 }
 
                 try {
-                    int studentId = Integer.parseInt(studentIdText);
+                    int studentId = Integer.parseInt(studentIdText.trim());
+
+                    // ✅ Ensure Students.csv is loaded
+                    FileUtil.getStudents(); // auto-loads if not already
+                    System.out.println("Loaded students count: " + FileUtil.getStudents().size());
+
+                    // ✅ Match by ID and Name (trim & case-insensitive)
                     Student s = FileUtil.getStudents().stream()
-                            .filter(stu -> stu.getId() == studentId && stu.getName().equalsIgnoreCase(studentName))
+                            .filter(stu -> stu.getId() == studentId
+                                    && stu.getName().trim().equalsIgnoreCase(studentName.trim()))
                             .findFirst()
                             .orElse(null);
 
@@ -99,15 +110,24 @@ public class AuthService {
                         return null;
                     }
 
-                    // Also verify linked student ID in Users.csv (if exists)
-                    if (u.getLinkedStudentId() != null && u.getLinkedStudentId() != studentId) {
+                    // ✅ Check Linked Student ID (only if exists)
+                    if (u.getLinkedStudentId() != null && !u.getLinkedStudentId().equals(studentId)) {
                         JOptionPane.showMessageDialog(null, "❌ This user is not linked to the entered student record!");
                         return null;
                     }
 
-                    return u; // ✅ Success
+                    // ✅ Link user automatically if blank in file (optional improvement)
+                    if (u.getLinkedStudentId() == null) {
+                        u.setLinkedStudentId(studentId);
+                        FileUtil.saveUsersToFile("Student_Data" + File.separator + "Users.csv");
+                        System.out.println("Linked user " + u.getUsername() + " to student ID " + studentId);
+                    }
+
+                    // ✅ Login success
+                    return u;
+
                 } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Invalid Student ID format!");
+                    JOptionPane.showMessageDialog(null, "Invalid Student ID format! Please enter a number.");
                     return null;
                 }
             }
@@ -116,6 +136,7 @@ public class AuthService {
         JOptionPane.showMessageDialog(null, "❌ Invalid credentials!");
         return null;
     }
+
 
     public static boolean registerUser(String username, String password, Role role, int studentId) {
         String userFile = "Student_Data\\Users.csv"; // same path used elsewhere

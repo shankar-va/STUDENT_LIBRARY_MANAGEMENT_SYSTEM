@@ -140,9 +140,14 @@ public class FileUtil extends src.service.StudentService {
         }catch(Exception e){
             System.out.println("Error saving file: "+e.getMessage());
         }
-    }public static java.util.List<Student> getStudents() {
+    }public static List<Student> getStudents() {
+        // Auto-load only if empty
+        if (Student_info.isEmpty()) {
+            loadFromFile("Student_Data" + File.separator + "Students.csv");
+        }
         return Student_info;
     }
+
     // -------------------- INTERACTIVE METHODS -------------------- //
 
     public static void addStudentInteractive(Scanner sc, String studentPath) {

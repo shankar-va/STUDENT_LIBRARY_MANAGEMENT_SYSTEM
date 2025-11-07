@@ -3,7 +3,6 @@ package src.gui;
 import src.model.Role;
 import src.model.User;
 import src.service.AuthService;
-
 import javax.swing.*;
 import java.awt.*;
 

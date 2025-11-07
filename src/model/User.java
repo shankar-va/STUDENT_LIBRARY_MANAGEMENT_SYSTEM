@@ -26,8 +26,14 @@ public class User {
 
     public void setPassword(String password) { this.password = password; }
 
+    // ✅ Add this new setter
+    public void setLinkedStudentId(Integer linkedStudentId) {
+        this.linkedStudentId = linkedStudentId;
+    }
+
     @Override
     public String toString() {
-        return username + "," + password + "," + role + "," + (linkedStudentId != null ? linkedStudentId : "");
+        return username + "," + password + "," + role + "," +
+                (linkedStudentId != null ? linkedStudentId : "");
     }
 }
